@@ -1,7 +1,11 @@
-#include <stdio.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+
 #include <unistd.h>
 
 #include "gnuplot_i.h"
+#include "shape_math.h"
 
 #define LIST_SIZE 500
 
@@ -49,6 +53,23 @@ int parseFile(FILE *fp)
 		get_file_item(fp, buffer, sizeof(buffer));
 		if (strcmp(buffer, "comment")==0)
 			continue;
+		else if (strcmp(buffer, "LINE") == 0) {
+			point_t result;
+			point_t start;
+			double t = 0.01;
+			get_file_item(fp, buffer, sizeof(buffer));
+			start.x = atof(buffer);
+			get_file_item(fp, buffer, sizeof(buffer));
+			start.y = atof(buffer);
+			
+			point_t end;
+			get_file_item(fp, buffer, sizeof(buffer));
+			end.x = atof(buffer);
+			get_file_item(fp, buffer, sizeof(buffer));
+			end.y = atof(buffer);			
+			
+			line_get_x_y( result, start, end, t);
+		}
 		printf("command: %s\n", buffer);
 		
 	}	
