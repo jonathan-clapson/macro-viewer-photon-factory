@@ -34,13 +34,23 @@ void get_file_item(FILE *fp, char *buffer, int buflen) {
 	buffer[i] = '\0';
 }
 
+void clear_line(FILE *fp) {
+	int c = 0;
+	while (c != '\n') {
+		c = fgetc(fp);
+	}	
+}
+
 int parseFile(FILE *fp)
 {
 	char buffer[200];
 	
 	while (!feof(fp)) {
 		get_file_item(fp, buffer, sizeof(buffer));
+		if (strcmp(buffer, "comment")==0)
+			continue;
 		printf("command: %s\n", buffer);
+		
 	}	
 	
 	return 0;
