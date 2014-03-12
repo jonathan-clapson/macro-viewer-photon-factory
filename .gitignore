@@ -1,0 +1,5 @@
+gnuplot_i
+testmac
+*.o
+viewer
+gnuplot_tmpdatafile*
