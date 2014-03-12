@@ -21,10 +21,27 @@ void add_point(double x, double y)
 	point_counter ++;
 }
 
+void get_file_item(FILE *fp, char *buffer, int buflen) {
+	int i;
+	for (i=0; i<buflen-1; i++) {
+			int c = fgetc(fp);
+			if ( (c == ';') || (c == ',') || (c == '\n') || feof(fp) ) {
+				break;
+			}			
+			buffer[i] = c;
+			if (c == '\r') i--;
+	}	
+	buffer[i] = '\0';
+}
+
 int parseFile(FILE *fp)
 {
-	//fscanf(fp, "%f %f %f\n");
+	char buffer[200];
 	
+	while (!feof(fp)) {
+		get_file_item(fp, buffer, sizeof(buffer));
+		printf("command: %s\n", buffer);
+	}	
 	
 	return 0;
 }
